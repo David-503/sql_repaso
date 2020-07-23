@@ -166,7 +166,6 @@ select a.*, l.titulo
 from autor a 
 inner join autor_libro al on a.codigo =al.cod_autor
 inner join libro l on al.cod_libro = l.codigo
-group by a.*,
 order by a.nombres desc
 
 go
