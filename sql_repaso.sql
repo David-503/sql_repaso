@@ -2,7 +2,7 @@
 --PRIMERA PARTE
 USE master;
 go
-DROP DATABASE IF EXISTS Control_de_libros_BA181927_GM181938;
+DROP DATABASE Control_de_libros_BA181927_GM181938;
 go
 
 CREATE DATABASE Control_de_libros_BA181927_GM181938;
@@ -202,3 +202,38 @@ select e.ubicacion, COUNT (e.cod_libro)
 group by e.ubicacion
 go 
 
+--TERCERA PARTE
+--A
+create table autores_espana(
+codigo varchar(4) primary key,
+nombres varchar(200) not null,
+apellidos varchar(200) not null
+);
+go
+
+--Autores que se transferiran de tabla
+select * from autor where nacionalidad='Española';
+go
+
+--Transferencia de autores de nacionalidad española
+INSERT INTO autores_espana (codigo,nombres,apellidos)
+Select codigo, nombres, apellidos
+FROM autor WHERE nacionalidad='Española';
+go
+
+--Comprobación de traspaso
+Select * from autores_espana;
+go
+
+--B)
+USE library;
+go
+--Creamos la vista
+create view copia_libro as
+Select cp.isbn, cp.copy_no, cp.on_loan, tl.title, it.translation, it.cover 
+from copy cp, title tl, item it
+where (cp.isbn='1') OR (cp.isbn='500') OR (cp.isbn='1000');
+
+--Revisamos y ordenamos la vista
+select * from copia_libro
+order by isbn;
